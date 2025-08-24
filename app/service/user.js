@@ -3,7 +3,7 @@
 const { Service } = require('egg')
 
 class UserService extends Service {
-  async getUserByName() {
+  async getUserByName(username) {
     const { app } = this
     try {
       const result = await app.mysql.get('user', { username })
