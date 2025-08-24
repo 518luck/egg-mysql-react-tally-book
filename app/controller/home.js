@@ -19,6 +19,62 @@ class HomeController extends Controller {
       title,
     }
   }
+  async addUser() {
+    const { ctx } = this
+    const { name } = ctx.request.body
+    try {
+      const result = await ctx.service.home.addUser(name)
+      ctx.body = {
+        code: 200,
+        msg: '添加成功',
+        data: result,
+      }
+    } catch (error) {
+      ctx.body = {
+        code: 500,
+        msg: '添加失败',
+        data: null,
+      }
+    }
+  }
+  async editUser() {
+    const { ctx } = this
+    const { id, name } = ctx.request.body
+    try {
+      const result = await ctx.service.home.editUser(id, name)
+      ctx.response.status = 200
+      ctx.body = {
+        code: 201,
+        msg: '修改成功',
+        data: result,
+      }
+    } catch (error) {
+      ctx.body = {
+        code: 500,
+        msg: '修改失败',
+        data: null,
+      }
+    }
+  }
+  async deleteUser() {
+    const { ctx } = this
+    const { id } = ctx.request.body
+    try {
+      const result = await ctx.service.home.deleteUser(id)
+      ctx.response.status = 200
+      ctx.body = {
+        code: 201,
+        msg: '删除成功',
+        data: result,
+      }
+    } catch (error) {
+      ctx.body = {
+        code: 500,
+        msg: '删除失败',
+        data: null,
+      }
+    }
+  }
 }
 
 module.exports = HomeController
