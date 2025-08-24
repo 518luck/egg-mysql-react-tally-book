@@ -49,5 +49,35 @@ class UserController extends Controller {
       }
     }
   }
+
+  async login() {
+    const { ctx, app } = this
+    const { username, password } = ctx.request.body
+    const userInfo = await ctx.service.user.getUserByName(username)
+    if (!userInfo || !userInfo.id) {
+      ctx.response.status = 404
+      ctx.body = {
+        code: 404,
+        msg: '账号不存在',
+        data: null,
+      }
+      return
+    }
+    if (userInfo && password != userInfo.password) {
+      ctx.response.status = 409
+      ctx.body = {
+        code: 409,
+        msg: '密码错误',
+        data: null,
+      }
+      return
+    }
+
+    const token = app.jwt.sign({
+      id: userInfo.id,
+      username: userInfo.username,
+      exp: Math.floor(Date.now() / 1000),
+    })
+  }
 }
 module.exports = UserController
