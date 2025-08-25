@@ -104,5 +104,22 @@ class UserController extends Controller {
       },
     }
   }
+
+  async getUserInfo() {
+    const { ctx } = this
+    const user = ctx.state.user
+    const userInfo = await ctx.service.user.getUserByName(user.username)
+    ctx.response.status = 200
+    ctx.body = {
+      code: 200,
+      msg: '请求成功',
+      data: {
+        id: userInfo.id,
+        username: userInfo.username,
+        signature: userInfo.signature || '',
+        avatar: userInfo.avatar || '',
+      },
+    }
+  }
 }
 module.exports = UserController

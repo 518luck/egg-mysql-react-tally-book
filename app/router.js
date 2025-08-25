@@ -3,8 +3,9 @@
  */
 module.exports = (app) => {
   const { router, controller, middleware } = app
-  const __jwt = middleware.jwtErr(app.config.jwt.secret)
+  const _jwt = middleware.jwtErr(app.config.jwt.secret)
   router.post('/api/user/register', controller.user.register)
   router.post('/api/user/login', controller.user.login)
-  router.get('/api/user/test', __jwt, controller.user.test)
+  router.get('/api/user/get_userinfo', _jwt, controller.user.getUserInfo)
+  router.get('/api/user/test', _jwt, controller.user.test)
 }
