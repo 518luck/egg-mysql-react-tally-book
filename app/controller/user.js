@@ -54,6 +54,7 @@ class UserController extends Controller {
     const { ctx, app } = this
     const { username, password } = ctx.request.body
     const userInfo = await ctx.service.user.getUserByName(username)
+
     if (!userInfo || !userInfo.id) {
       ctx.response.status = 404
       ctx.body = {
@@ -73,11 +74,35 @@ class UserController extends Controller {
       return
     }
 
-    const token = app.jwt.sign({
-      id: userInfo.id,
-      username: userInfo.username,
-      exp: Math.floor(Date.now() / 1000),
-    })
+    const token = app.jwt.sign(
+      {
+        id: userInfo.id,
+        username: userInfo.username,
+        exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60,
+      },
+      app.config.jwt.secret
+    )
+    ctx.response.status = 200
+    ctx.body = {
+      code: 200,
+      msg: '登录成功',
+      data: {
+        token,
+      },
+    }
+  }
+
+  async test() {
+    const { ctx, app } = this
+    const token = ctx.request.header.authorization
+    const decoded = await app.jwt.verify(token, app.config.jwt.secret)
+    ctx.body = {
+      code: 200,
+      message: '获取成功',
+      data: {
+        ...decoded,
+      },
+    }
   }
 }
 module.exports = UserController
