@@ -1,8 +1,15 @@
 {
-  "extends": "eslint-config-egg",
-  "root": true,
-  "arrow-parens": ["error", "always"],
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
   "rules": {
-    "semi": ["error", "never"]
+    "no-unused-vars": "error",
+    "semi": ["error", "never"],
+    "no-console": "warn"
   }
 }

@@ -6,6 +6,7 @@ module.exports = (secret) => {
     if (token != 'null' && token) {
       try {
         decoded = ctx.app.jwt.verify(token, secret) //验证token
+        console.log('🚀 ~ jwtErr ~ decoded:', decoded)
         await next()
       } catch (error) {
         ctx.response.status = 401
