@@ -121,5 +121,35 @@ class UserController extends Controller {
       },
     }
   }
+
+  async editUserInfo() {
+    const { ctx } = this
+    const { signature = '', avatar = '' } = ctx.request.body
+
+    try {
+      let user_id
+      const decoded = ctx.state.user
+      if (!decoded) return
+      user_id = decoded.id
+
+      const userInfo = await ctx.service.user.getUserByName(decoded.username)
+      await ctx.service.user.editUserInfo({
+        ...userInfo,
+        signature,
+        avatar,
+      })
+
+      ctx.response.status = 200
+      ctx.body = {
+        code: 200,
+        msg: '请求成功',
+        data: {
+          id: user_id,
+          signature,
+          username: userInfo.username,
+        },
+      }
+    } catch (error) {}
+  }
 }
 module.exports = UserController
