@@ -9,12 +9,12 @@ class BillController extends Controller {
       amount,
       type_id,
       type_name,
-      data,
+      date,
       pay_type,
       remark = '',
-    } = ctx.redirect.body
+    } = ctx.request.body
 
-    if (!amount || !type_id || !type_name || !data || !pay_type) {
+    if (!amount || !type_id || !type_name || !date || !pay_type) {
       ctx.response.status = 400
       ctx.body = {
         code: 400,
@@ -26,7 +26,7 @@ class BillController extends Controller {
 
     try {
       let user_id
-      const decoded = ctx.stale.user
+      const decoded = ctx.state.user
       if (!decoded) return
       user_id = decoded.id
       // user_id 默认添加到每个账单项，作为后续获取指定用户账单的标示。
@@ -35,7 +35,7 @@ class BillController extends Controller {
         amount,
         type_id,
         type_name,
-        data,
+        date,
         pay_type,
         remark,
         user_id,
@@ -47,6 +47,7 @@ class BillController extends Controller {
         data: null,
       }
     } catch (error) {
+      console.error('🚀 ~ BillController ~ add ~ error:', error)
       ctx.response.status = 500
       ctx.body = {
         code: 500,

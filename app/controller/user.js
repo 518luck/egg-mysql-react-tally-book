@@ -78,7 +78,7 @@ class UserController extends Controller {
       {
         id: userInfo.id,
         username: userInfo.username,
-        exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60,
+        exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60 * 7,
       },
       app.config.jwt.secret
     )

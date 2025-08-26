@@ -9,6 +9,7 @@ class BillService extends Service {
       const result = await app.mysql.insert('bill', params)
       return result
     } catch (error) {
+      console.error('🚀 ~ BillService ~ add ~ error:', error)
       return null
     }
   }

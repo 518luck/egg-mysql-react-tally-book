@@ -10,6 +10,7 @@
   "rules": {
     "no-unused-vars": "error",
     "semi": ["error", "never"],
-    "no-console": "warn"
+    "no-console": ["warn", { "allow": ["error", "warn"] }],
+    "no-undef": "error"
   }
 }
