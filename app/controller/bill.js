@@ -172,7 +172,7 @@ class BillController extends Controller {
 
     const decode = ctx.state.user.id
     if (!decode) return
-    let user_id = decode.id
+    let user_id = decode
     if (!id) {
       ctx.response.status = 400
       ctx.body = {
@@ -192,6 +192,95 @@ class BillController extends Controller {
       }
     } catch (error) {
       console.error('🚀 ~ BillService ~ detail ~ error:', error)
+      ctx.response.state = 500
+      ctx.body = {
+        code: 500,
+        msg: '系统错误',
+        data: null,
+      }
+    }
+  }
+
+  // 更新账单
+  async update() {
+    const { ctx } = this
+    const {
+      id,
+      amount,
+      type_id,
+      type_name,
+      date,
+      pay_type,
+      remark = '',
+    } = ctx.request.body
+
+    if (!amount || !type_id || !type_name || !date || !pay_type) {
+      ctx.body = {
+        code: 400,
+        msg: '参数错误',
+        data: null,
+      }
+    }
+
+    try {
+      const decoded = ctx.state.user
+      if (!decoded) return
+      let user_id = decoded.id
+      const result = await ctx.service.bill.update({
+        id, // 账单 id
+        amount, // 金额
+        type_id, // 消费类型 id
+        type_name, // 消费类型名称
+        date, // 日期
+        pay_type, // 消费类型
+        remark, // 备注
+        user_id, // 用户 id
+      })
+
+      ctx.response.state = 200
+      ctx.body = {
+        code: 200,
+        msg: '更新成功',
+        data: result,
+      }
+    } catch (error) {
+      console.error('🚀 ~ BillController ~ update ~ error:', error)
+      ctx.response.state = 500
+      ctx.body = {
+        code: 500,
+        msg: '系统错误',
+        data: null,
+      }
+    }
+  }
+
+  // 删除账单
+  async delete() {
+    const { ctx } = this
+    const { id } = ctx.request.body
+    if (!id) {
+      ctx.response.status = 400
+      ctx.body = {
+        code: 400,
+        msg: '账单id不能为空',
+        data: null,
+      }
+      return
+    }
+
+    try {
+      const decode = ctx.state.user
+      if (!decode) return
+      let user_id = decode.id
+      const result = await ctx.service.bill.delete(id, user_id)
+      ctx.response.state = 200
+      ctx.body = {
+        code: 200,
+        msg: '删除成功',
+        data: result,
+      }
+    } catch (error) {
+      console.error('🚀 ~ BillController ~ delete ~ error:', error)
       ctx.response.state = 500
       ctx.body = {
         code: 500,
