@@ -56,7 +56,7 @@ class UserController extends Controller {
     const userInfo = await ctx.service.user.getUserByName(username)
 
     if (!userInfo || !userInfo.id) {
-      ctx.response.status = 404
+      // ctx.response.status = 404
       ctx.body = {
         code: 404,
         msg: '账号不存在',

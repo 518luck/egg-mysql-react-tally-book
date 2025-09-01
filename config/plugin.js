@@ -21,5 +21,6 @@ module.exports = {
   cors: {
     enable: true,
     package: 'egg-cors',
+    // origin: ['http://localhost:5173'],
   },
 }
