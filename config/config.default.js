@@ -50,7 +50,7 @@ module.exports = (appInfo) => {
       // 端口号
       port: '3306',
       // 用户名
-      user: 'root',
+      user: 'bill',
       // 密码
       password: '123456', // 初始化密码，没设置的可以不写
       // 数据库名
