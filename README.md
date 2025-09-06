@@ -2,6 +2,8 @@
 
 "用来学习egg"
 
+目前这个是账单的后端
+
 ## QuickStart
 
 <!-- add docs here for user -->
