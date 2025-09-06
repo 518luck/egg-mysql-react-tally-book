@@ -67,7 +67,12 @@ module.exports = (appInfo) => {
   config.multipart = {
     mode: 'file',
   }
-
+  config.cluster = {
+    listen: {
+      port: 7001,
+      hostname: '0.0.0.0',
+    },
+  }
   return {
     ...config,
     ...userConfig,
